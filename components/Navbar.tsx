@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import SignOutButton from "@/components/SignOutButton";
 import Magnetic from "@/components/Magnetic";
+import ThemeToggle from "@/components/ThemeToggle";
 import { siteConfig } from "@/lib/site-config";
 
 export default async function Navbar() {
@@ -43,6 +44,7 @@ export default async function Navbar() {
               </Magnetic>
             </>
           )}
+          <ThemeToggle />
         </div>
       </nav>
     </header>
