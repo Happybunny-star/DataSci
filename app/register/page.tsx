@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import Magnetic from "@/components/Magnetic";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -107,13 +108,15 @@ export default function RegisterPage() {
 
         {error && <p className="text-sm text-red-500">{error}</p>}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-60"
-        >
-          {loading ? "Creating account…" : "Create account"}
-        </button>
+        <Magnetic>
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-60"
+          >
+            {loading ? "Creating account…" : "Create account"}
+          </button>
+        </Magnetic>
       </form>
 
       <p className="mt-6 text-sm text-zinc-500">
