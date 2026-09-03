@@ -60,15 +60,15 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="border-t border-black/5 bg-black/[.02] py-24 dark:border-white/10 dark:bg-white/[.02]">
+      <section className="border-t border-surface-border py-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-tight">How it works</h2>
           </Reveal>
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-3">
             {STEPS.map((step, i) => (
               <Reveal key={step.title} delay={i * 120}>
-                <div>
+                <div className="card-hover h-full rounded-2xl border border-surface-border bg-surface p-6">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
                     {i + 1}
                   </div>
