@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createPost } from "@/app/blog/actions";
+import Magnetic from "@/components/Magnetic";
 
 export default async function NewPostPage() {
   const supabase = await createClient();
@@ -44,12 +45,14 @@ export default async function NewPostPage() {
             className="mt-1 w-full rounded-lg border border-black/10 bg-transparent px-3 py-2 outline-none focus:border-indigo-500 dark:border-white/15"
           />
         </div>
-        <button
-          type="submit"
-          className="mt-2 self-start rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
-        >
-          Publish
-        </button>
+        <Magnetic>
+          <button
+            type="submit"
+            className="mt-2 self-start rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+          >
+            Publish
+          </button>
+        </Magnetic>
       </form>
     </div>
   );
