@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import Shell from "@/components/Shell";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -10,16 +11,13 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-// Runs before hydration so the page never flashes the wrong theme: an
-// explicit choice from the toggle wins, otherwise we fall back to the
-// visitor's OS-level preference for their first visit.
+// Runs before hydration so the page never flashes the wrong theme. Dark is
+// the site's default look — a visitor only gets light if they (or a past
+// visit) explicitly chose it via the toggle, which is remembered here.
 const THEME_INIT_SCRIPT = `
   try {
     var stored = localStorage.getItem("theme");
-    var theme = stored === "light" || stored === "dark"
-      ? stored
-      : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    if (theme === "dark") document.documentElement.classList.add("dark");
+    if (stored !== "light") document.documentElement.classList.add("dark");
   } catch (e) {}
 `;
 
@@ -32,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <CustomCursor />
         <Navbar />
-        <main className="flex flex-1 flex-col">{children}</main>
+        <Shell>{children}</Shell>
         <Footer />
       </body>
     </html>
