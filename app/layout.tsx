@@ -10,9 +10,25 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
+// Runs before hydration so the page never flashes the wrong theme: an
+// explicit choice from the toggle wins, otherwise we fall back to the
+// visitor's OS-level preference for their first visit.
+const THEME_INIT_SCRIPT = `
+  try {
+    var stored = localStorage.getItem("theme");
+    var theme = stored === "light" || stored === "dark"
+      ? stored
+      : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (theme === "dark") document.documentElement.classList.add("dark");
+  } catch (e) {}
+`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <CustomCursor />
         <Navbar />
