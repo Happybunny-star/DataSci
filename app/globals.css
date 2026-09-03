@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
+/* Tailwind v4's `dark:` variant defaults to the OS-level media query. We
+   want visitors (and the toggle in the navbar) to be able to override that,
+   so `dark:` utilities respond to a `.dark` class on <html> instead —
+   layout.tsx sets that class before hydration based on localStorage,
+   falling back to prefers-color-scheme on a first visit. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -13,17 +27,11 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ── Custom cursor ──────────────────────────────────────────────────────
@@ -87,4 +95,89 @@ body {
 .has-custom-cursor a,
 .has-custom-cursor button {
   transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+/* ── Scroll reveal ──────────────────────────────────────────────────────
+   Used by components/Reveal.tsx. Content fades and rises into place the
+   first time it crosses into the viewport; --reveal-delay staggers groups
+   of siblings. Skipped entirely for reduced-motion visitors. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Aurora background ─────────────────────────────────────────────────
+   A soft, slowly-drifting gradient glow behind the hero. Pure CSS, sits
+   behind the content via z-index, and dims a touch in dark mode so it
+   reads as ambient light rather than a spotlight. */
+.aurora {
+  position: absolute;
+  inset: -10% -10% auto -10%;
+  height: 140%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: min(60vw, 640px);
+  height: min(60vw, 640px);
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  animation: aurora-drift 20s ease-in-out infinite alternate;
+}
+
+.aurora::before {
+  top: -10%;
+  left: -5%;
+  background: radial-gradient(circle, #6366f1, transparent 70%);
+}
+
+.aurora::after {
+  top: 5%;
+  right: -10%;
+  background: radial-gradient(circle, #a855f7, transparent 70%);
+  animation-delay: -10s;
+}
+
+.dark .aurora::before,
+.dark .aurora::after {
+  opacity: 0.22;
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6%, 8%) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before,
+  .aurora::after {
+    animation: none;
+  }
 }
