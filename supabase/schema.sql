@@ -17,10 +17,12 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+drop policy if exists "Profiles are viewable by everyone" on public.profiles;
 create policy "Profiles are viewable by everyone"
   on public.profiles for select
   using (true);
 
+drop policy if exists "Users can update their own profile" on public.profiles;
 create policy "Users can update their own profile"
   on public.profiles for update
   using (auth.uid() = id);
@@ -103,6 +105,7 @@ create table if not exists public.assessment_submissions (
 
 alter table public.assessment_submissions enable row level security;
 
+drop policy if exists "Users can view their own submission" on public.assessment_submissions;
 create policy "Users can view their own submission"
   on public.assessment_submissions for select
   using (auth.uid() = user_id);
@@ -129,18 +132,22 @@ create table if not exists public.blog_posts (
 
 alter table public.blog_posts enable row level security;
 
+drop policy if exists "Published posts are public" on public.blog_posts;
 create policy "Published posts are public"
   on public.blog_posts for select
   using (published = true);
 
+drop policy if exists "Authors can view their own drafts" on public.blog_posts;
 create policy "Authors can view their own drafts"
   on public.blog_posts for select
   using (auth.uid() = author_id);
 
+drop policy if exists "Authors can insert their own posts" on public.blog_posts;
 create policy "Authors can insert their own posts"
   on public.blog_posts for insert
   with check (auth.uid() = author_id);
 
+drop policy if exists "Authors can update their own posts" on public.blog_posts;
 create policy "Authors can update their own posts"
   on public.blog_posts for update
   using (auth.uid() = author_id);
