@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Magnetic from "@/components/Magnetic";
 import { siteConfig } from "@/lib/site-config";
 
 const STEPS = [
@@ -32,18 +33,22 @@ export default function Home() {
             {siteConfig.description}
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/register"
-              className="rounded-full bg-indigo-600 px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
-            >
-              Create your account
-            </Link>
-            <Link
-              href="/blog"
-              className="rounded-full border border-black/10 px-6 py-3 text-center text-sm font-semibold transition-colors hover:bg-black/[.03] dark:border-white/15 dark:hover:bg-white/[.06]"
-            >
-              Read the blog
-            </Link>
+            <Magnetic>
+              <Link
+                href="/register"
+                className="rounded-full bg-indigo-600 px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+              >
+                Create your account
+              </Link>
+            </Magnetic>
+            <Magnetic>
+              <Link
+                href="/blog"
+                className="rounded-full border border-black/10 px-6 py-3 text-center text-sm font-semibold transition-colors hover:bg-black/[.03] dark:border-white/15 dark:hover:bg-white/[.06]"
+              >
+                Read the blog
+              </Link>
+            </Magnetic>
           </div>
         </div>
       </section>
@@ -72,12 +77,14 @@ export default function Home() {
         <p className="mx-auto mt-3 max-w-md text-zinc-500">
           Registration is free, and the assessment only takes a few minutes.
         </p>
-        <Link
-          href="/register"
-          className="mt-8 inline-block rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
-        >
-          Get started
-        </Link>
+        <Magnetic>
+          <Link
+            href="/register"
+            className="mt-8 inline-block rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+          >
+            Get started
+          </Link>
+        </Magnetic>
       </section>
     </div>
   );
