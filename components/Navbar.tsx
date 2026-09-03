@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import SignOutButton from "@/components/SignOutButton";
+import Magnetic from "@/components/Magnetic";
 import { siteConfig } from "@/lib/site-config";
 
 export default async function Navbar() {
@@ -32,12 +33,14 @@ export default async function Navbar() {
               <Link href="/login" className="hover:text-indigo-500 transition-colors">
                 Log in
               </Link>
-              <Link
-                href="/register"
-                className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500 transition-colors"
-              >
-                Get started
-              </Link>
+              <Magnetic>
+                <Link
+                  href="/register"
+                  className="rounded-full bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500 transition-colors"
+                >
+                  Get started
+                </Link>
+              </Magnetic>
             </>
           )}
         </div>
