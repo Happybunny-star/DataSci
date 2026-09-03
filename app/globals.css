@@ -7,21 +7,33 @@
    falling back to prefers-color-scheme on a first visit. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* --background is the page canvas; --surface is an elevated panel on top of
+   it (cards, form panels). In light mode the canvas is a soft off-white so
+   white cards read as raised; in dark mode — the site's default — the
+   canvas is near-black and cards are a lighter charcoal, the same
+   card-grid-on-dark language as the reference dashboard this was modeled
+   on. */
 :root {
-  --background: #ffffff;
+  --background: #f7f7f8;
   --foreground: #171717;
+  --surface: #ffffff;
+  --surface-border: rgba(0, 0, 0, 0.08);
   color-scheme: light;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --surface: #141417;
+  --surface-border: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -180,4 +192,16 @@ body {
   .aurora::after {
     animation: none;
   }
+}
+
+/* ── Card hover lift ────────────────────────────────────────────────────
+   Shared by the dashboard tiles, blog cards and "How it works" steps —
+   anything presented as a clickable surface card. */
+.card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.4);
 }
