@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { submitAssessment } from "@/app/assessment/actions";
+import Magnetic from "@/components/Magnetic";
 
 export type Question = {
   id: number;
@@ -69,13 +70,15 @@ export default function AssessmentForm({ questions }: { questions: Question[] })
         <p className="text-sm text-zinc-500">
           {answeredCount} / {questions.length} answered
         </p>
-        <button
-          onClick={handleSubmit}
-          disabled={!allAnswered || isPending}
-          className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
-        >
-          {isPending ? "Submitting…" : "Submit assessment"}
-        </button>
+        <Magnetic>
+          <button
+            onClick={handleSubmit}
+            disabled={!allAnswered || isPending}
+            className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+          >
+            {isPending ? "Submitting…" : "Submit assessment"}
+          </button>
+        </Magnetic>
       </div>
     </div>
   );
