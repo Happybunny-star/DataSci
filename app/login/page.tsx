@@ -4,6 +4,7 @@ import { Suspense, useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import Magnetic from "@/components/Magnetic";
 
 function LoginForm() {
   const router = useRouter();
@@ -69,13 +70,15 @@ function LoginForm() {
 
         {error && <p className="text-sm text-red-500">{error}</p>}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-60"
-        >
-          {loading ? "Logging in…" : "Log in"}
-        </button>
+        <Magnetic>
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-60"
+          >
+            {loading ? "Logging in…" : "Log in"}
+          </button>
+        </Magnetic>
       </form>
 
       <p className="mt-6 text-sm text-zinc-500">
